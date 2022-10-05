@@ -1,11 +1,11 @@
 const db = require("../models/carpostres.model");
-const { cloudinary_js_config } = require("../utils/cloundinary");
-const Car = db.car;
+const cloudinary  = require("../utils/cloundinary");
 
-// Create and Save a new blog
+
+// Create and Save a new car
 exports.create = async (req, res) => {
     // Create a Car360
-  const {
+    const {
     name,
     manufacture,
     year,
@@ -13,14 +13,14 @@ exports.create = async (req, res) => {
     number_of_day,
     amount,
   }= req.body
-
+    try {
+      
   const photo =[];
-  for (let i= 0; i< req.files.length; i++);
-  const result = await cloudinary_js_config.uploader.upload(req.files(i).path);
-  photo.push(result.secure_url);
-
-  // Save car info in the database
-  const newCar = await Car.create({
+  for (let i= 0; i<= req.file.length; i++);{
+  const result = await cloudinary.uploader.upload(req.file.path);
+  photo.push(result.secure_url)};
+  
+  const newCar = await db.create({
     name,
     manufacture,
     year,
@@ -28,15 +28,15 @@ exports.create = async (req, res) => {
     number_of_day,
     amount,
   })
-  res.status(201).send(newCar)
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while creating the car."
-      });
-    });
+  return res.status(201).send(newCar)
+      
+    } catch (error) {
+      return res.status(500).json({message: error.message})
+    }
+  
 
 };
+
 
 // Retrieve all blogs from the database.
 exports.findAll = (req, res) => {
@@ -160,3 +160,6 @@ exports.findAllAmount = (req, res) => {
       });
     });
 };
+
+
+

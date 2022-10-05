@@ -1,7 +1,11 @@
 const express = require('express');
-const { upload } = require('../utils/multer');
+const  passport  = require('passport');
+const  upload  = require('../utils/multer');
 const { create } = require('../controller/car.controller');
 const router = express.Router();
+
+
+
 
 
 
@@ -15,6 +19,24 @@ router.get('/', function(req, res, next) {
 
 
 
-router.post('/create', upload.array('photo', 4), create)
+router.post('/create', upload.array('file', 4), create)
+
+router.get(
+  '/auth/facebook',
+  passport.authenticate('facebook', {
+    scope: ['profile'],
+  })
+);
+
+router.get(
+  '/auth/facebook/redirect',
+  passport.authenticate('facebook'),
+  (req, res) => {
+    res.send('you have reached the callback uri');
+  }
+);
+
+
+
 
 module.exports = router;

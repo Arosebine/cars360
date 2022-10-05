@@ -1,4 +1,4 @@
-const { DataTypes } = require("sequelize");
+const Sequelize = require("sequelize");
 
 
 module.exports = (sequelize, Sequelize) => {
@@ -16,7 +16,7 @@ module.exports = (sequelize, Sequelize) => {
        allowNull: false,
     },
      images: {
-      type: DataTypes.ARRAY(DataTypes.STRING),
+      type: Sequelize.ARRAY(Sequelize.ARRAY),
       allowNull: false,
     },
      number_of_days: {

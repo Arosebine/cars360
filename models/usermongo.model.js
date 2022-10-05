@@ -14,6 +14,9 @@ const userSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
+    picture:{
+        type: String,
+    },
     role: {
       type: String,
       enum: ['user', 'admin'],
@@ -23,3 +26,4 @@ const userSchema = new mongoose.Schema({
 })
 
 
+module.exports = mongoose.model('Users', userSchema);

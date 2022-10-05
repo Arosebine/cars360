@@ -3,6 +3,7 @@ dotenv.config();
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
+const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoSanitize = require('express-mongo-sanitize');
@@ -10,6 +11,12 @@ const xss = require('xss-clean');
 const helmet = require("helmet");
 const connectDB = require('./database/mongdb');
 const db = require("./database/postgresql");
+// const fileupload = require('express-fileupload');
+const passport = require('passport');
+const session = require('express-session');
+
+
+
 
 
 
@@ -33,10 +40,17 @@ db.sequelize.authenticate().then(() => {
 // sync
 db.sequelize.sync()
 
-// to force sync during development
-//db.sequelize.sync({ force: true }).then(() => {
-//console.log("Drop and re-sync db.");
-//});
+
+app.use(session({
+  resave: false,
+  saveUninitialized: true,
+  secret: 'SECRET'
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+
 
 
 const port = process.env.PORT || 6750
@@ -53,6 +67,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(mongoSanitize());
 app.use(xss());
 app.use(helmet());
+app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(fileupload());
+
+
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
