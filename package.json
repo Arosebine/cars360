@@ -49,6 +49,7 @@
   "license": "ISC",
   "description": "car360 is a platform where can buy and sell cars",
   "devDependencies": {
+    "nodemon": "^2.0.20",
     "xss-clean": "^0.1.1"
   }
 }
