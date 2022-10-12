@@ -1,44 +1,43 @@
-const db = require("../models/carpostres.model");
-const cloudinary  = require("../utils/cloundinary");
+const cloudinary = require('../utils/cloundinary');
+const db = require("../database/postgresql");
+const Sequelize = require('sequelize');
+const Car = db.car;
 
 
-// Create and Save a new car
-exports.create = async (req, res) => {
-    // Create a Car360
-    const {
+exports.carRegistration = async(req, res) => {
+  const {name, manufacturer, year, images, number_of_day, amount }= req.body;
+
+  const photo = [];
+  for (let i=0; i < req.file; i++ ){
+    const result = await cloudinary.uploader.upload(req.file[i].path);
+    photo.push(result.secure_url);
+  }
+  try {
+
+    const newcar = await Car.create({
     name,
-    manufacture,
+    manufacturer,
     year,
     images,
     number_of_day,
     amount,
-  }= req.body
-    try {
-      
-  const photo =[];
-  for (let i= 0; i<= req.file.length; i++);{
-  const result = await cloudinary.uploader.upload(req.file.path);
-  photo.push(result.secure_url)};
-  
-  const newCar = await db.create({
-    name,
-    manufacture,
-    year,
-    images:photo,
-    number_of_day,
-    amount,
-  })
-  return res.status(201).send(newCar)
-      
-    } catch (error) {
-      return res.status(500).json({message: error.message})
-    }
-  
-
-};
+    })
+    console.log(Car);
+    return res.status(200).json(newcar)
+  } catch (error) {
+    console.log(error);
+    console.log(error);
+    
+  }
+}
 
 
-// Retrieve all blogs from the database.
+
+
+
+
+
+// Retrieve all cars from the database.
 exports.findAll = (req, res) => {
     const content = req.query.content;
     const condition = content ? { [Op.iLike]: `%${content}%` } : null;
@@ -56,7 +55,7 @@ exports.findAll = (req, res) => {
 
 };
 
-// Find a single blog with an id
+// Find a single car with an id
 exports.findOne = (req, res) => {
     const id = req.params.id;
 
@@ -74,7 +73,7 @@ exports.findOne = (req, res) => {
 
 };
 
-// Update a blog by the id in the request
+// Update a car by the id in the request
 exports.update = (req, res) => {
     if (!req.body) {
         return res.status(400).send({
@@ -102,7 +101,7 @@ exports.update = (req, res) => {
 
 };
 
-// Delete a blog with the specified id in the request
+// Delete a car with the specified id in the request
 exports.delete = (req, res) => {
     const id = req.params.id;
 
@@ -128,7 +127,7 @@ exports.delete = (req, res) => {
 
 };
 
-// Delete all blogs from the database.
+// Delete all cars from the database.
 exports.deleteAll = (req, res) => {
     Car.destroy({
     where: {},
@@ -147,7 +146,7 @@ exports.deleteAll = (req, res) => {
     });
 };
 
-// Find all published blogs
+// Find all published cars
 exports.findAllAmount = (req, res) => {
   Car.findAll({ where: { amount: true }})
     .then(data => {
@@ -161,5 +160,35 @@ exports.findAllAmount = (req, res) => {
     });
 };
 
+
+
+// upload files in sequelize? 
+// const multer = require('multer')
+
+// const Sequelize = require('sequelize')
+// const sequelize = new Sequelize('database', 'username', 'password')
+
+// const MyModel = sequelize.define('myModel', {
+//   filePath: Sequelize.STRING,
+// })
+
+
+
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, './app/uploads')
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, file.originalname)
+//   }
+// })
+
+// app.post('/upload', multer({ storage }).single('example'), async (req, res) => {
+//     // This needs to be done elsewhere. For this example we do it here.
+//     await sequelize.sync()
+
+//     const filePath = `${req.file.destination}/${req.file.filename}`
+//     const myModel = await MyModel.create({ filePath })
+// })
 
 

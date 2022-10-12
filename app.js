@@ -1,5 +1,4 @@
-const dotenv = require('dotenv');
-dotenv.config();
+require('dotenv').config();
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
@@ -7,38 +6,31 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const mongoSanitize = require('express-mongo-sanitize');
+const FacebookStrategy = require('./utils/facebook');
 const xss = require('xss-clean');
 const helmet = require("helmet");
 const connectDB = require('./database/mongdb');
-const db = require("./database/postgresql");
-// const fileupload = require('express-fileupload');
+const fileupload = require('express-fileupload');
 const passport = require('passport');
 const session = require('express-session');
+const indexapp = require('./routes/index');
+const usersapp = require('./routes/users');
+const postgresDB = require('./config/db.postgres');
+const GoogleStrategy = require('./utils/googleOauth');
 
 
 
 
 
 
-const indexRouter = require('./routes/index');
-const usersRouter = require('./routes/users');
 
 
 
 const app = express();
 connectDB();
 
-// connect to db
-db.sequelize.authenticate().then(() => {
-      console.log("Connected to the database!!!");
-    })
-    .catch(err => {
-      console.log("Cannot connect to the database!", err);
-      process.exit();
-    });
+postgresDB();
 
-// sync
-db.sequelize.sync()
 
 
 app.use(session({
@@ -71,9 +63,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // app.use(fileupload());
 
 
+app.use('/', indexapp);
+app.use('/users', usersapp);
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

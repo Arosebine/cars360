@@ -1,21 +1,23 @@
-const FacebookStrategy = require('passport-facebook').Strategy;
 const passport = require('passport');
 const User = require('../models/usermongo.model');
 
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
-
-passport.serializeUser(function (user, cb) {
-  cb(null, user);
+passport.serializeUser((user, done) => {
+  done(null, user.id);
 });
 
-passport.deserializeUser(function (obj, cb) {
-  cb(null, obj);
+// Deserialize the user , just like decode a jwt token
+passport.deserializeUser((id, done) => {
+  const user = User.findById(id);
+  done(null, user);
 });
 
-passport.use(new FacebookStrategy(
-   {
-      clientID: process.env.FACEBOOK_APP_ID,
-      clientSecret: process.env.FACEBOOK_SECRET_KEY,
+passport.use(
+  new GoogleStrategy(
+    {
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       callbackURL: 'http://localhost:3479/profile',
     },
     async (accessToken, refreshToken, profile, done) => {
@@ -35,7 +37,7 @@ passport.use(new FacebookStrategy(
 
       const user = await User.create({
         googleId: profile.id,
-        name: profile.displayName,
+        username: profile.displayName,
         picture: profile._json.picture,
         email: profile.email,
       });

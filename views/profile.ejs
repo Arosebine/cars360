@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title>Facebook Node Authentication</title>
+    <title>car360 || Authentication</title>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" type="text/css"
         href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.5/css/materialize.min.css">
@@ -24,20 +24,25 @@
     <div class="section no-pad-bot" id="index-banner">
         <div class="container">
             <br><br>
+            <% data.forEach( user => { %>
+             
+            
             <div class="row center">
                 <div class="col s12">
                     <div class="card">
                         <div class="card-content blue lighten-3">
                             <span class="card-title white-text"><strong><i class="large material-icons">person</i>
-                                </strong></span>
+                                </strong><%= user.picture %></span>
                         </div>
                         <div class="card-action">
+            
                             <h5><b>
-                                     user.displayName 
+                                    <%= user.name %>
                                 </b></h5>
-                            <p><strong>Facebook id</strong>:  user.id 
+                            <p><strong>Facebook id</strong>: <%= user.id %>
                             </p>
                         </div>
+                        <% }) %>
                     </div>
                 </div>
             </div>

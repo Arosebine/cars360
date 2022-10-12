@@ -1,33 +1,37 @@
-const Sequelize = require("sequelize");
+
 
 
 module.exports = (sequelize, Sequelize) => {
-  const Car = sequelize.define("cars", {
+  const Car = sequelize.define("car360", {
     name: {
       type: Sequelize.STRING,
-       allowNull: false,
+       
     },
     manufacturer: {
       type: Sequelize.STRING,
-       allowNull: false,
+       
     },
-    yaer: {
-      type: Sequelize.STRING,
-       allowNull: false,
+    year: {
+      type: Sequelize.INTEGER,
+       
     },
      images: {
-      type: Sequelize.ARRAY(Sequelize.ARRAY),
-      allowNull: false,
+      type: Sequelize.STRING,
+      
     },
-     number_of_days: {
-      type: Sequelize.REAL,
-       allowNull: false,
+     number_of_day: {
+      type: Sequelize.INTEGER,
+       
     },
      amount: {
       type: Sequelize.INTEGER,
-       allowNull: false,
+       
     }
-  });
+  },
+  {
+    freezeTableName: true,    
+  }
+  );
 
   return Car;
 };

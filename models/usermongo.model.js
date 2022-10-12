@@ -4,14 +4,16 @@ const mongoose = require('mongoose');
 
 
 const userSchema = new mongoose.Schema({
-    name:{
+    googleid:{
         type: String,
-        required: true,
+        trim: true,        
+    },
+    username:{
+        type: String,
         trim: true,        
     },
     email:{
         type: String,
-        required: true,
         unique: true,
     },
     picture:{
@@ -23,7 +25,11 @@ const userSchema = new mongoose.Schema({
       default: 'user',
     },
 
-})
+},
+{
+    timestamps: true,
+}
+)
 
 
 module.exports = mongoose.model('Users', userSchema);

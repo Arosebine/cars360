@@ -1,9 +1,11 @@
 const express = require('express');
-const  passport  = require('passport');
 const  upload  = require('../utils/multer');
-const { create } = require('../controller/car.controller');
+const { carRegistration, findAll } = require('../controller/car.controller');
+const { paystackIniate, paystackVerify } = require('../controller/paystack.controller');
 const router = express.Router();
-
+const passport = require('passport');
+const { flwtransact, payCallback } = require('../controller/flutterwave.controler');
+const { carCreate } = require('../controller/user.controller');
 
 
 
@@ -19,22 +21,34 @@ router.get('/', function(req, res, next) {
 
 
 
-router.post('/create', upload.array('file', 4), create)
+router.post('/flutter', flwtransact );
+router.get('/payment-callback',  payCallback );
 
-router.get(
-  '/auth/facebook',
+router.post('/create', carRegistration);
+
+router.get('/auth/facebook', passport.authenticate('facebook', {
+  scope: ['public_profile', 'email']
+}));
+
+router.get('/auth/facebook/callback',
   passport.authenticate('facebook', {
-    scope: ['profile'],
-  })
-);
+    successRedirect: 'profile',
+  }));
 
-router.get(
-  '/auth/facebook/redirect',
-  passport.authenticate('facebook'),
-  (req, res) => {
-    res.send('you have reached the callback uri');
-  }
-);
+
+
+router.get('/logout', function (req, res) {
+  req.logout();
+  res.redirect('/');
+});
+
+
+
+router.get('/cars', findAll);
+router.post('/paystack/initiate', paystackIniate);
+router.get('/paystack/verify', paystackVerify);
+router.post('/car', upload.array('files', 4 ), carCreate);
+
 
 
 
