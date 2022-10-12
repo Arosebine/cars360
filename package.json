@@ -24,6 +24,7 @@
     "mongoose": "^6.6.2",
     "morgan": "~1.9.1",
     "multer": "^1.4.5-lts.1",
+    "nodemon": "^2.0.20",
     "passport": "^0.6.0",
     "passport-facebook": "^3.0.0",
     "passport-google-oauth20": "^2.0.0",
@@ -49,7 +50,6 @@
   "license": "ISC",
   "description": "car360 is a platform where can buy and sell cars",
   "devDependencies": {
-    "nodemon": "^2.0.20",
     "xss-clean": "^0.1.1"
   }
 }
