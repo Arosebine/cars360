@@ -16,7 +16,7 @@ passport.use(new FacebookStrategy(
    {
       clientID: process.env.FACEBOOK_APP_ID,
       clientSecret: process.env.FACEBOOK_SECRET_KEY,
-      callbackURL: 'http://localhost:3479/profile',
+      callbackURL: 'https://cars360.herokuapp.com/profile',
     },
     async (accessToken, refreshToken, profile, done) => {
       console.log(
