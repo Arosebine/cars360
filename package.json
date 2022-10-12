@@ -35,7 +35,8 @@
     "pg-hstore": "^2.3.4",
     "query-string": "^7.1.1",
     "request": "^2.88.2",
-    "sequelize": "^6.23.2"
+    "sequelize": "^6.23.2",
+    "xss-clean": "^0.1.1"
   },
   "main": "app.js",
   "keywords": [
@@ -48,8 +49,5 @@
   ],
   "author": "Ebine Arowolo Seyi",
   "license": "ISC",
-  "description": "car360 is a platform where can buy and sell cars",
-  "devDependencies": {
-    "xss-clean": "^0.1.1"
-  }
+  "description": "car360 is a platform where can buy and sell cars"
 }
