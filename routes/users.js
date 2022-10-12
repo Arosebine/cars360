@@ -47,7 +47,7 @@ router.get('/logout', function (req, res) {
 router.get('/cars', findAll);
 router.post('/paystack/initiate', paystackIniate);
 router.get('/paystack/verify', paystackVerify);
-router.post('/car', upload.array('files', 4 ), carCreate);
+router.post('/car', upload.single('file'), carCreate);
 
 
 

@@ -17,6 +17,8 @@ const indexapp = require('./routes/index');
 const usersapp = require('./routes/users');
 const postgresDB = require('./config/db.postgres');
 const GoogleStrategy = require('./utils/googleOauth');
+const cloudinary = require('./utils/cloundinary');
+const multer = require('./utils/multer');
 
 
 
